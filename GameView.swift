@@ -25,7 +25,7 @@ struct GameView: View {
         GeometryReader{ geometry in 
             
             VStack {
-                
+                Spacer()
                 VStack {
                     Text("Timer: 0000")
                         .font(.largeTitle)
@@ -33,20 +33,22 @@ struct GameView: View {
                     
                     HStack{
                         Text("Goal: 50")
-                            .font(.title)
+                            .font(.body)
                             .foregroundColor(.white)
                             .padding()
                             .background(.indigo)
                             .cornerRadius(25)
                         
                         Text("Current: 20")
-                            .font(.title)
+                        //.font(.title)
+                            .font(.body)
                             .foregroundColor(.white)
                             .padding()
                             .background(.indigo)
                             .cornerRadius(25)
-                                        
+                        
                     }
+                    .padding(20)
                 }
                 
                 LazyVGrid(columns: columns, spacing: 5) {
@@ -73,15 +75,20 @@ struct GameView: View {
                                     .foregroundColor(.indigo) 
                             }
                             
-                            
-                            
                         } // ZStack closing bracket
                         
-                        
-                        
-                        
                     } // ForEach closing
+                    
                 } // LazyVGrid closing
+                
+                .padding(.top)
+                
+                Text("Score: 000")
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                
+                Spacer()
+                
             } // VStack    
             
         }
