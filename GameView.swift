@@ -35,11 +35,20 @@ struct GameView: View {
                             .frame(width: geometry.size.width/3 - 15, 
                                height:geometry.size.height/3 - 15)
                         
-                        // Loops through and puts framed number on button/circle                        
-                        Image(systemName: setup[i])
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.white) 
+                        if i != 4 {
+                            // Loops through and puts framed number on button/circle                        
+                            Image(systemName: setup[i])
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(.white) 
+                        } else {
+                            Image(systemName: operators[0])
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.indigo) 
+                        }
+                        
+                        
                             
                     }
                     
