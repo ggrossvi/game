@@ -27,7 +27,26 @@ struct GameView: View {
             VStack {
                 
                 VStack {
-                    Text("Timer")
+                    Text("Timer: 0000")
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                    
+                    HStack{
+                        Text("Goal: 50")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(.indigo)
+                            .cornerRadius(25)
+                        
+                        Text("Current: 20")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(.indigo)
+                            .cornerRadius(25)
+                                        
+                    }
                 }
                 
                 LazyVGrid(columns: columns, spacing: 5) {
@@ -39,7 +58,7 @@ struct GameView: View {
                             Circle()
                                 .foregroundColor(.cyan)
                                 .frame(width: geometry.size.width/3 - 15, 
-                                       height:geometry.size.height/3 - 15)
+                                       height:geometry.size.width/3 - 15)
                             
                             if i != 4 {
                                 // Loops through and puts framed number on button/circle                        
