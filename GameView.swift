@@ -8,6 +8,9 @@ struct GameView: View {
     
     let operators: [String] = ["plus.circle", "minus.circle", "multiply.circle"]
     
+    
+    @State private var operatorID: Int = 0
+    @State private var currentValue: Int = 0
     //    Create array of random numbers
     
     @State private var setup: [String] = ["\(Int.random(in:1...9)).square",
@@ -39,7 +42,7 @@ struct GameView: View {
                             .background(.indigo)
                             .cornerRadius(25)
                         
-                        Text("Current: 20")
+                        Text("Current: \(currentValue)")
                         //.font(.title)
                             .font(.body)
                             .foregroundColor(.white)
@@ -69,13 +72,24 @@ struct GameView: View {
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.white) 
                             } else {
-                                Image(systemName: operators[0])
+                                Image(systemName: operators[operatorID])
                                     .resizable()
                                     .frame(width: 60, height: 60)
                                     .foregroundColor(.indigo) 
+                                    .onTapGesture {
+                                        selectOperator()
+                                    }
                             }
                             
                         } // ZStack closing bracket
+                        .onTapGesture {
+                            let haptic = UIImpactFeedbackGenerator(style: .rigid)
+                            haptic.impactOccurred()
+                            let numberLabel = setup[i]
+                            let numberValue = numberLabel.first?.wholeNumberValue
+                            
+                            performOperation(numberValue)
+                        }
                         
                     } // ForEach closing
                     
@@ -91,6 +105,25 @@ struct GameView: View {
                 
             } // VStack    
             
+        }
+    }
+    
+    func performOperation (_ numberValue: Int?) {
+        if operatorID == 0 {
+            currentValue += numberValue!
+        } else if operatorID == 1 {
+            currentValue -= numberValue!
+        } else if operatorID == 2 {
+            currentValue = currentValue * numberValue! // finished at 24:12
+        }
+    }
+    
+    func selectOperator() {
+        let haptic = UIImpactFeedbackGenerator(style: .rigid)
+        haptic.impactOccurred()
+        operatorID += 1
+        if operatorID > 2 {
+            operatorID = 0
         }
     }
 }
