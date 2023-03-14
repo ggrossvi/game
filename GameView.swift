@@ -49,7 +49,7 @@ struct GameView: View {
                         }
                     
                     HStack{
-                        Text("Goal: 50")
+                        Text("Goal: \(goalValue)")
                             .font(.body)
                             .foregroundColor(.white)
                             .padding()
@@ -112,7 +112,7 @@ struct GameView: View {
                 
                 .padding(.top)
                 
-                Text("Score: 000")
+                Text("Score: \(score.score)")
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                 
@@ -122,6 +122,20 @@ struct GameView: View {
             
         }
     }
+    
+    func countRemainingNumbers() {
+        var count = 0
+        for i in setup {
+            if i.isEmpty {
+                count += 1
+            }
+            if count == 0 && currentValue != goalValue {
+                 timeRemaining = 0
+            }
+                
+        }
+    }
+    
     
     func winCondition() {
         if currentValue == goalValue {
