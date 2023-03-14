@@ -102,7 +102,9 @@ struct GameView: View {
                             let numberLabel = setup[i]
                             let numberValue = numberLabel.first?.wholeNumberValue
                             
+                            guard numberValue != nil else {return}
                             performOperation(numberValue)
+                            setup[i] = ""
                             winCondition()
                         }
                         
@@ -129,7 +131,7 @@ struct GameView: View {
             if i.isEmpty {
                 count += 1
             }
-            if count == 0 && currentValue != goalValue {
+            if count == 8 && currentValue != goalValue {
                  timeRemaining = 0
             }
                 
