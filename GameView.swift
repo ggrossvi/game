@@ -1,5 +1,9 @@
 import SwiftUI
 
+class Score: ObservableObject {
+    @Published var score: Int = 0
+}
+
 struct GameView: View {
     
     let columns:[GridItem] =  [GridItem(.flexible()),
@@ -11,6 +15,10 @@ struct GameView: View {
     
     @State private var operatorID: Int = 0
     @State private var currentValue: Int = 0
+    @State private var goalValue: Int = Int.random(in: 20...40)
+    @State private var isGameOver = false
+    @State private var timeRemaining = 30 
+    let timer  = Timer.publish(every:1,  on: .main, in: .common).autoconnect()
     //    Create array of random numbers
     
     @State private var setup: [String] = ["\(Int.random(in:1...9)).square",
@@ -23,6 +31,9 @@ struct GameView: View {
                                           "\(Int.random(in:1...9)).square",
                                           "\(Int.random(in:1...9)).square"
                                         ]
+    
+    @ObservedObject var score = Score()
+    
     var body: some View {
         
         GeometryReader{ geometry in 
@@ -30,9 +41,12 @@ struct GameView: View {
             VStack {
                 Spacer()
                 VStack {
-                    Text("Timer: 0000")
+                    Text("Timer: \(timeRemaining)")
                         .font(.largeTitle)
                         .fontWeight(.heavy)
+                        .onReceive(timer) {_ in 
+                            updateTimer()
+                        }
                     
                     HStack{
                         Text("Goal: 50")
@@ -89,6 +103,7 @@ struct GameView: View {
                             let numberValue = numberLabel.first?.wholeNumberValue
                             
                             performOperation(numberValue)
+                            winCondition()
                         }
                         
                     } // ForEach closing
@@ -105,6 +120,36 @@ struct GameView: View {
                 
             } // VStack    
             
+        }
+    }
+    
+    func winCondition() {
+        if currentValue == goalValue {
+            score.score += 1
+            timeRemaining += 5
+            goalValue = Int.random(in: 20...40)
+            currentValue = 0
+            operatorID = 0
+        
+        setup = ["\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square",
+                   "plus.circle",
+                   "\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square",
+                   "\(Int.random(in:1...9)).square"
+        ]
+            
+        }
+    }
+    
+    func updateTimer() {
+        if timeRemaining > 0 {
+            timeRemaining -= 1
+        } else if timeRemaining <= 0 {
+            isGameOver = true
         }
     }
     
